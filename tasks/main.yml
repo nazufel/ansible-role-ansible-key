@@ -1,11 +1,4 @@
 ---
-- name: Include OS-specific variables for CentOS/RHEL
-  include_vars: "RedHat-{{ ansible_distribution_version.split('.')[0] }}-Passwords.yml"
-  when: ansible_distribution == 'CentOS' or
-        ansible_distribution == 'Red Hat Enterprise Linux' or
-        ansible_distribution == 'RedHat'
-
 # Setup/install tasks.
-- include_tasks: setup-RedHat.yml
-  when: ansible_os_family == 'RedHat'        
+- include_tasks: setup-key.yml
 ...
