@@ -1,0 +1,17 @@
+---
+dependencies: []
+
+galaxy_info:
+  author: nazufel
+  description: Add Ansible's SSH key on New Linux servers created from oVirt/RHEV templates
+  license: "license (BSD, MIT)"
+  min_ansible_version: 2.4
+  platforms:
+    - name: EL
+      versions:
+        - 7
+  galaxy_tags:
+    - ssh
+    - system
+    - identity
+    - security
