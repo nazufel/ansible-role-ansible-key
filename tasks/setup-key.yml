@@ -2,23 +2,23 @@
 ---
 - name: Create .ssh Directory for Interactive User
   file:
-    path: "/home/{{ interactive_user }}/.ssh"
-    owner: "{{ interactive_user }}"
-    group: "{{ interactive_user }}"
+    path: "/home/{{ ansible_user }}/.ssh"
+    owner: "{{ ansible_user }}"
+    group: "{{ ansible_user }}"
     mode: 0744
     state: directory
 - name: Create authorized_keys File for Interactive User
   file:
-    path: "/home/{{ interactive_user }}/.ssh/authorized_keys"
-    owner: "{{ interactive_user }}"
-    group: "{{ interactive_user }}"
+    path: "/home/{{ ansible_user }}/.ssh/authorized_keys"
+    owner: "{{ ansible_user }}"
+    group: "{{ ansible_user }}"
     mode: 0644
     state: touch
 - name: Place Interactive Public Key in authorized_keys
   vars:
     pub_key_value: "{{ lookup('file', '{{ interactive_public_key }}') }}"
   lineinfile:
-    path: "/home/{{ interactive_user }}/.ssh/authorized_keys"
+    path: "/home/{{ ansible_user }}/.ssh/authorized_keys"
     line: "{{ pub_key_value }}"
     create: yes
 ...

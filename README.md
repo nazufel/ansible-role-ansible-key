@@ -24,7 +24,7 @@ interactive_public_key | ~/.ssh/id_rsa.pub | YES | The public key to be placed i
 
 ## Dependencies
 
-**None**
+[SSH Pass](https://gist.github.com/arunoda/7790979)
 
 ## Example Variable Files and Playbooks
 

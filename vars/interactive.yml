@@ -1,4 +1,0 @@
-# vars/interactive.yml
----
-interactive_public_key: "~/.ssh/id_rsa.pub"
-...
