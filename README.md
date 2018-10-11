@@ -13,18 +13,17 @@ This role will connect to a newly deployed Linux server from a template where th
 * Interactive user on inventory target
 * Password for above interactive user, stored in a password file, and (preferably) encrypted with Ansible [Vault](https://docs.ansible.com/ansible/2.4/vault.html)
 
-
 ## Role Variables
 
 Variable Names | Default | Required | Description
 ---------------| :-----: | :------: | -----------
-interactive_user | N/A | YES | The name of the interactive user to be used by Ansible and is the target of this Role.
-interactive_password | N/A | YES | The password for the interactive user. This is needed to gain access to the interactive user so that this Role can add a public key to the user's `authorized_keys`.
-interactive_public_key | ~/.ssh/id_rsa.pub | YES | The public key to be placed into the interactive user's `authorized_keys` file.
+ansible_user | N/A | YES | Ansible's built in global variable to define is the target user of this Role.
+vault_ansible_ssh_pass | N/A | YES | The password for the target ansible user on the remote host. This is needed to gain access to the ansible user so that this Role can add a public key to the user's `authorized_keys` file.
+interactive_public_key | ~/.ssh/id_rsa.pub | YES | The location of the public key to be placed into the Ansible user's `authorized_keys`file.
 
 ## Dependencies
 
-[SSH Pass](https://gist.github.com/arunoda/7790979)
+* [SSH Pass](https://gist.github.com/arunoda/7790979) is needed to interactively log into the remote host.
 
 ## Example Variable Files and Playbooks
 
@@ -32,16 +31,16 @@ interactive_public_key | ~/.ssh/id_rsa.pub | YES | The public key to be placed i
 
 This example overrides the `interactive_public_key`'s default value.
 ```yml
-# vars/interactive_vars.yml
+# group_vars/server.yml
 ---
-interactive_user: interactiveuser
+ansible_user: interactiveuser
 interactive_public_key: "~/.ssh/interactive-key.pub"
 ```
 
 ```yml
-# password.yml
+# group_vars/vault.yml
 ---
-interactive_pasword: alwaysenc3ryptHepasswordfile!
+vault_ansible_ssh_pass: alwaysenc3ryptHepasswordfile!
 ```
 
 ### Example Playbooks
@@ -51,28 +50,31 @@ interactive_pasword: alwaysenc3ryptHepasswordfile!
 Below is an example playbook using external variables files in the playbook, outside of the role.
 
 ```yml
-- hosts: servers
+- hosts: server
   vars_files:
-    - vars/interactive_vars.yml
-    - password.yml
+    - group_vars/server.yml
+    - group_vars/vault.yml
   roles:
     - { role: nazufel.ansible_role_ansible_key }
 ```
 
 #### Playbook with Included Variables
 
-Below is an example playbook including variables in the playbook file. All required variables in included, except for the `interactive_password` variable
+Below is an example playbook including variables in the playbook file. All required variables in included, except for the `vault_ansible_ssh_pass` variable.
 
 ```yml
 # ansible-key.yml
-- hosts: servers
+---
+- hosts: server
   name: Add Ansible Key to Authorized Keys Playbook
   vars_files:
-    - passwords.yml
+    - group_vars/vault.yml
   vars:
-    - interactive_user: "interactive"
+    ansible_user: interactiveuser
+    interactive_public_key: "~/.ssh/interactive-key.pub"
   roles:
     - { role: nazufel.ansible_role_ansible_key }
+...
 ```
 
 ## License

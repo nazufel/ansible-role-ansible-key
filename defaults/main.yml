@@ -1,0 +1,7 @@
+# vars/interactive.yml
+---
+# type of connection for Ansible to use
+ansible_connection: ssh
+# default ssh key to place in authorized_keys
+interactive_public_key: "~/.ssh/id_rsa.pub"
+...
