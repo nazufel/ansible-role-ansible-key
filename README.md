@@ -16,11 +16,11 @@ This role will connect to a newly deployed Linux server from a template where th
 
 ## Role Variables
 
-Variable Names | Required | Description
----------------| :------: | -----------
-interactive_user | YES | The name of the interactive user to be used by Ansible and is the target of this Role.
-interactive_password | YES | The password for the interactive user. This is needed to gain access to the interactive user so that this Role can add a public key to the user's `authorized_keys`.
-interactive_public_key | YES | The public key to be placed into the interactive user's `authorized_keys` file.
+Variable Names | Default | Required | Description
+---------------| :-----: | :------: | -----------
+interactive_user | N/A | YES | The name of the interactive user to be used by Ansible and is the target of this Role.
+interactive_password | N/A | YES | The password for the interactive user. This is needed to gain access to the interactive user so that this Role can add a public key to the user's `authorized_keys`.
+interactive_public_key | ~/.ssh/id_rsa.pub | YES | The public key to be placed into the interactive user's `authorized_keys` file.
 
 ## Dependencies
 
@@ -30,6 +30,7 @@ interactive_public_key | YES | The public key to be placed into the interactive 
 
 ### Example Variables Files (Pre Ansible-Vault Encryption of the Password File)
 
+This example overrides the `interactive_public_key`'s default value.
 ```yml
 # vars/interactive_vars.yml
 ---
@@ -40,7 +41,7 @@ interactive_public_key: "~/.ssh/interactive-key.pub"
 ```yml
 # password.yml
 ---
-interactive_pasword: alwaysencryptpasswordfile!
+interactive_pasword: alwaysenc3ryptHepasswordfile!
 ```
 
 ### Example Playbooks
@@ -69,8 +70,7 @@ Below is an example playbook including variables in the playbook file. All requi
   vars_files:
     - passwords.yml
   vars:
-    - interactive_user: "ansible"
-    - interactive_public_key: "~/.ssh/interactive_key.pub"
+    - interactive_user: "interactive"
   roles:
     - { role: nazufel.ansible_role_ansible_key }
 ```
