@@ -18,7 +18,7 @@ This role will connect to a newly deployed Linux server from a template where th
 Variable Names | Default | Required | Description
 ---------------| :-----: | :------: | -----------
 ansible_user | N/A | YES | Ansible's built in global variable to define is the target user of this Role.
-vault_ansible_ssh_pass | N/A | YES | The password for the target ansible user on the remote host. This is needed to gain access to the ansible user so that this Role can add a public key to the user's `authorized_keys` file.
+ansible_ssh_pass | N/A | YES | The password for the target ansible user on the remote host. This is needed to gain access to the ansible user so that this Role can add a public key to the user's `authorized_keys` file.
 interactive_public_key | ~/.ssh/id_rsa.pub | YES | The location of the public key to be placed into the Ansible user's `authorized_keys`file.
 
 ## Dependencies
@@ -40,7 +40,7 @@ interactive_public_key: "~/.ssh/interactive-key.pub"
 ```yml
 # group_vars/vault.yml
 ---
-vault_ansible_ssh_pass: alwaysenc3ryptHepasswordfile!
+ansible_ssh_pass: alwaysenc3ryptHepasswordfile!
 ```
 
 ### Example Playbooks
